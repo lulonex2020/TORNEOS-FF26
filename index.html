@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Torneos FF - Ley del Campo</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: #080a16;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   FONDO
+========================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    background: #ff6a00;
+    opacity: .10;
+    filter: blur(120px);
+    border-radius: 50%;
+    top: 10%;
+    left: 5%;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    background: #008cff;
+    opacity: .10;
+    filter: blur(120px);
+    border-radius: 50%;
+    bottom: 10%;
+    right: 5%;
+    pointer-events: none;
+}
+
+/* =========================
+   MENÚ
+========================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(14,18,44,.97);
+    border-bottom: 2px solid rgba(249,115,22,.35);
+    backdrop-filter: blur(12px);
+}
+
+.header-contenido {
+    max-width: 1200px;
+    margin: auto;
+    padding: 18px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    color: #ff8a00;
+    text-decoration: none;
+    font-size: 23px;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.menu {
+    display: flex;
+    gap: 22px;
+}
+
+.menu a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.menu a:hover {
+    color: #ff8a00;
+}
+
+.menu .contacto-link {
+    color: #4ade80;
+}
+
+/* =========================
+   INICIO
+========================= */
+
+.inicio {
+    min-height: 65vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.inicio-contenido {
+    max-width: 900px;
+}
+
+.etiqueta {
+    display: inline-block;
+
+    padding: 10px 20px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        90deg,
+        #ef4444,
+        #f97316,
+        #facc15
+    );
+
+    color: #111;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    margin-bottom: 25px;
+}
+
+.titulo {
+    margin: 0;
+
+    font-size: clamp(42px, 8vw, 78px);
+
+    line-height: .95;
+
+    font-weight: 900;
+
+    font-style: italic;
+}
+
+.titulo span {
+    color: #f97316;
+}
+
+.descripcion {
+    max-width: 650px;
+
+    margin: 25px auto;
+
+    color: #bbb;
+
+    font-size: 19px;
+
+    line-height: 1.6;
+}
+
+.boton-principal {
+    display: inline-block;
+
+    padding: 16px 30px;
+
+    border-radius: 13px;
+
+    background: linear-gradient(
+        90deg,
+        #f97316,
+        #facc15
+    );
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-weight: 900;
+}
+
+.boton-principal:hover {
+    transform: scale(1.04);
+}
+
+/* =========================
+   TORNEOS
+========================= */
+
+.torneos {
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 80px 20px;
+
+    position: relative;
+    z-index: 1;
+
+    scroll-margin-top: 80px;
+}
+
+.titulo-seccion {
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+.titulo-seccion h2 {
+    margin: 0;
+
+    font-size: clamp(38px,6vw,58px);
+
+    font-weight: 900;
+
+    font-style: italic;
+}
+
+.titulo-seccion p {
+    color: #999;
+}
+
+/* =========================
+   TARJETAS
+========================= */
+
+.tarjetas {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(280px,1fr));
+
+    gap: 25px;
+}
+
+.tarjeta {
+    min-height: 370px;
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151a3d,
+            #090b1c
+        );
+
+    transition: .25s;
+}
+
+.tarjeta:hover {
+    transform: translateY(-6px);
+}
+
+.solo {
+    border: 2px solid rgba(249,115,22,.5);
+}
+
+.solo:hover {
+    border-color: #f97316;
+
+    box-shadow:
+        0 0 30px rgba(249,115,22,.25);
+}
+
+.duo {
+    border: 2px solid rgba(0,174,255,.5);
+}
+
+.duo:hover {
+    border-color: #00aeff;
+
+    box-shadow:
+        0 0 30px rgba(0,174,255,.25);
+}
+
+.escuadra {
+    border: 2px solid rgba(255,60,60,.5);
+}
+
+.escuadra:hover {
+    border-color: #ff3c3c;
+
+    box-shadow:
+        0 0 30px rgba(255,60,60,.25);
+}
+
+.tipo {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.tipo-solo {
+    color: #fb923c;
+}
+
+.tipo-duo {
+    color: #38bdf8;
+}
+
+.tipo-escuadra {
+    color: #ff6257;
+}
+
+.tarjeta h3 {
+    margin: 20px 0 10px;
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+    font-style: italic;
+}
+
+.tarjeta p {
+    color: #aaa;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+}
+
+/* =========================
+   BOTÓN VER DETALLES
+========================= */
+
+.ver-detalles {
+    display: block;
+
+    width: 100%;
+
+    padding: 17px;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.ver-detalles:hover {
+    transform: scale(1.03);
+}
+
+.boton-solo {
+    background:
+        linear-gradient(
+            90deg,
+            #ff8a00,
+            #ffb000
+        );
+
+    color: #111;
+}
+
+.boton-duo {
+    background:
+        linear-gradient(
+            90deg,
+            #00a8ff,
+            #008cff
+        );
+
+    color: white;
+}
+
+.boton-escuadra {
+    background:
+        linear-gradient(
+            90deg,
+            #ff3d32,
+            #ff573d
+        );
+
+    color: white;
+}
+
+/* =================================================
+   VENTANAS FLOTANTES
+
+   SE ABREN CON #modalSolo
+   #modalDuo
+   #modalEscuadra
+================================================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0,0,0,.88);
+
+    backdrop-filter: blur(9px);
+}
+
+/* ESTA ES LA CLAVE */
+
+.modal:target {
+    display: flex;
+}
+
+.ventana {
+    width: 100%;
+
+    max-width: 520px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 30px;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #181d45,
+            #080a18
+        );
+
+    border: 2px solid #f97316;
+
+    box-shadow:
+        0 0 40px rgba(249,115,22,.4);
+
+    animation: aparecer .2s ease;
+}
+
+.ventana-duo {
+    border-color: #00aeff;
+
+    box-shadow:
+        0 0 40px rgba(0,174,255,.4);
+}
+
+.ventana-escuadra {
+    border-color: #ff3d32;
+
+    box-shadow:
+        0 0 40px rgba(255,61,50,.4);
+}
+
+@keyframes aparecer {
+
+    from {
+        transform: scale(.7);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+.modal-titulo {
+    margin: 0 50px 25px 0;
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+    font-style: italic;
+}
+
+.titulo-solo {
+    color: #fb923c;
+}
+
+.titulo-duo {
+    color: #38bdf8;
+}
+
+.titulo-escuadra {
+    color: #ff6257;
+}
+
+/* =========================
+   DATOS DENTRO DEL MODAL
+========================= */
+
+.dato {
+    background: rgba(0,0,0,.35);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 15px;
+
+    padding: 16px;
+
+    margin-top: 13px;
+}
+
+.dato-titulo {
+    color: #999;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 6px;
+}
+
+.dato-principal {
+    color: white;
+
+    font-size: 20px;
+
+    font-weight: 900;
+}
+
+.reglas {
+    margin: 8px 0 0;
+
+    padding-left: 20px;
+
+    color: #ddd;
+
+    line-height: 1.9;
+
+    font-size: 14px;
+}
+
+/* =========================
+   CERRAR
+========================= */
+
+.cerrar {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 15px;
+
+    border-radius: 13px;
+
+    background: #f97316;
+
+    color: #111;
+
+    text-decoration: none;
+
+    text-align: center;
+
+    font-weight: 900;
+}
+
+.cerrar-azul {
+    background: #0ea5e9;
+
+    color: white;
+}
+
+.cerrar-rojo {
+    background: #ef4444;
+
+    color: white;
+}
+
+.cerrar-x {
+    float: right;
+
+    margin-top: -5px;
+
+    color: #aaa;
+
+    font-size: 28px;
+
+    font-weight: 900;
+
+    text-decoration: none;
+}
+
+.cerrar-x:hover {
+    color: white;
+}
+
+/* =========================
+   CONTACTO
+========================= */
+
+.contacto {
+    position: relative;
+
+    z-index: 1;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background: #0e122c;
+}
+
+.contacto h2 {
+    margin: 0;
+
+    font-size: clamp(32px,5vw,45px);
+
+    font-weight: 900;
+
+    font-style: italic;
+}
+
+.contacto p {
+    color: #aaa;
+
+    margin: 15px 0 25px;
+}
+
+.whatsapp {
+    display: inline-block;
+
+    padding: 16px 25px;
+
+    border-radius: 13px;
+
+    background: #22c55e;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: 900;
+}
+
+.whatsapp:hover {
+    background: #16a34a;
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width:700px) {
+
+    .header-contenido {
+        flex-direction: column;
+    }
+
+    .menu {
+        gap: 15px;
+    }
+
+    .menu a {
+        font-size: 11px;
+    }
+
+    .ventana {
+        padding: 24px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =================================================
+     MENÚ
+================================================= -->
+
+<header>
+
+    <div class="header-contenido">
+
+        <a href="#inicio" class="logo">
+            ⚡ Torneos Free Fire
+        </a>
+
+        <nav class="menu">
+
+            <a href="#inicio">
+                INICIO
+            </a>
+
+            <a href="#torneos">
+                TORNEOS
+            </a>
+
+            <a
+                href="https://wa.me/51905972507"
+                target="_blank"
+                class="contacto-link"
+            >
+                CONTACTO
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =================================================
+     INICIO
+================================================= -->
+
+<section id="inicio" class="inicio">
+
+    <div class="inicio-contenido">
+
+        <div class="etiqueta">
+            🏆 COMUNIDAD GAMER ACTIVA
+        </div>
+
+        <h1 class="titulo">
+
+            DEMUESTRA QUE ERES EL
+
+            <br>
+
+            <span>
+                REY DEL CAMPO
+            </span>
+
+        </h1>
+
+        <p class="descripcion">
+
+            Participa en nuestros torneos de Free Fire
+            y demuestra quién domina el campo.
+
+        </p>
+
+        <a
+            href="#torneos"
+            class="boton-principal"
+        >
+            🚀 VER TORNEOS
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     TORNEOS
+================================================= -->
+
+<section id="torneos" class="torneos">
+
+    <div class="titulo-seccion">
+
+        <h2>
+            🔥 TORNEOS
+        </h2>
+
+        <p>
+            Elige tu modalidad y revisa los detalles.
+        </p>
+
+    </div>
+
+
+    <div class="tarjetas">
+
+
+        <!-- =========================================
+             SOLO
+        ========================================== -->
+
+        <div class="tarjeta solo">
+
+            <div>
+
+                <span class="tipo tipo-solo">
+                    SOLO
+                </span>
+
+                <h3>
+                    TORNEO SOLO
+                </h3>
+
+                <p>
+                    Entra solo y consigue la mayor
+                    cantidad de kills.
+                </p>
+
+            </div>
+
+
+            <!-- ESTE BOTÓN ABRE EL MODAL SOLO -->
+
+            <a
+                href="#modalSolo"
+                class="ver-detalles boton-solo"
+            >
+                👁️ VER DETALLES
+            </a>
+
+        </div>
+
+
+
+        <!-- =========================================
+             DÚO
+        ========================================== -->
+
+        <div class="tarjeta duo">
+
+            <div>
+
+                <span class="tipo tipo-duo">
+                    DÚO
+                </span>
+
+                <h3>
+                    TORNEO DÚO
+                </h3>
+
+                <p>
+                    Forma tu dúo y demuestra quién
+                    domina el campo.
+                </p>
+
+            </div>
+
+
+            <!-- ESTE BOTÓN ABRE EL MODAL DÚO -->
+
+            <a
+                href="#modalDuo"
+                class="ver-detalles boton-duo"
+            >
+                👁️ VER DETALLES
+            </a>
+
+        </div>
+
+
+
+        <!-- =========================================
+             ESCUADRA
+        ========================================== -->
+
+        <div class="tarjeta escuadra">
+
+            <div>
+
+                <span class="tipo tipo-escuadra">
+                    ESCUADRA
+                </span>
+
+                <h3>
+                    TORNEO ESCUADRA
+                </h3>
+
+                <p>
+                    Reúne a tu escuadra y demuestra
+                    quién manda en el campo.
+                </p>
+
+            </div>
+
+
+            <!-- ESTE BOTÓN ABRE EL MODAL ESCUADRA -->
+
+            <a
+                href="#modalEscuadra"
+                class="ver-detalles boton-escuadra"
+            >
+                👁️ VER DETALLES
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =================================================
+     MODAL SOLO
+================================================= -->
+
+<div
+    id="modalSolo"
+    class="modal"
+>
+
+    <div class="ventana">
+
+        <a
+            href="#torneos"
+            class="cerrar-x"
+        >
+            ×
+        </a>
+
+
+        <h2 class="modal-titulo titulo-solo">
+            🔥 TORNEO SOLO
+        </h2>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                🗺️ MAPA
+            </div>
+
+            <div class="dato-principal">
+                BERMUDA
+            </div>
+
+        </div>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                🎯 MODALIDAD
+            </div>
+
+            <div class="dato-principal">
+                SOLO POR KILLS
+            </div>
+
+        </div>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                📋 REGLAS
+            </div>
+
+            <ul class="reglas">
+
+                <li>
+                    🎯 Cada kill cuenta.
+                </li>
+
+                <li>
+                    🏆 No importa el puesto en que quedes.
+                </li>
+
+                <li>
+                    🚫 No hacks.
+                </li>
+
+                <li>
+                    🚫 No paneles.
+                </li>
+
+                <li>
+                    ✅ Juego limpio obligatorio.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <a
+            href="#torneos"
+            class="cerrar"
+        >
+            CERRAR
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================================
+     MODAL DÚO
+================================================= -->
+
+<div
+    id="modalDuo"
+    class="modal"
+>
+
+    <div class="ventana ventana-duo">
+
+        <a
+            href="#torneos"
+            class="cerrar-x"
+        >
+            ×
+        </a>
+
+
+        <h2 class="modal-titulo titulo-duo">
+            🔵 TORNEO DÚO
+        </h2>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                🗺️ MAPA
+            </div>
+
+            <div class="dato-principal">
+                BERMUDA
+            </div>
+
+        </div>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                👥 MODALIDAD
+            </div>
+
+            <div class="dato-principal">
+                DÚO
+            </div>
+
+        </div>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                📋 REGLAS
+            </div>
+
+            <ul class="reglas">
+
+                <li>
+                    🚫 No hacks.
+                </li>
+
+                <li>
+                    🚫 No paneles.
+                </li>
+
+                <li>
+                    ✅ Juego limpio obligatorio.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <a
+            href="#torneos"
+            class="cerrar cerrar-azul"
+        >
+            CERRAR
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================================
+     MODAL ESCUADRA
+================================================= -->
+
+<div
+    id="modalEscuadra"
+    class="modal"
+>
+
+    <div class="ventana ventana-escuadra">
+
+        <a
+            href="#torneos"
+            class="cerrar-x"
+        >
+            ×
+        </a>
+
+
+        <h2 class="modal-titulo titulo-escuadra">
+            🔴 TORNEO ESCUADRA
+        </h2>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                🗺️ MAPA
+            </div>
+
+            <div class="dato-principal">
+                BERMUDA
+            </div>
+
+        </div>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                👥 MODALIDAD
+            </div>
+
+            <div class="dato-principal">
+                ESCUADRA
+            </div>
+
+        </div>
+
+
+        <div class="dato">
+
+            <div class="dato-titulo">
+                📋 REGLAS
+            </div>
+
+            <ul class="reglas">
+
+                <li>
+                    🚫 No hacks.
+                </li>
+
+                <li>
+                    🚫 No paneles.
+                </li>
+
+                <li>
+                    ✅ Juego limpio obligatorio.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <a
+            href="#torneos"
+            class="cerrar cerrar-rojo"
+        >
+            CERRAR
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================================
+     CONTACTO
+================================================= -->
+
+<section class="contacto">
+
+    <h2>
+        📲 ¿QUIERES PARTICIPAR?
+    </h2>
+
+    <p>
+        Comunícate con nosotros por WhatsApp.
+    </p>
+
+    <a
+        href="https://chat.whatsapp.com/HW7RYfo244sAzf9hJ9pj2J"
+        target="_blank"
+        class="whatsapp"
+    >
+        💬 CONTACTAR POR WHATSAPP
+    </a>
+
+</section>
+
+
+</body>
+  </html>
